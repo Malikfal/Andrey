@@ -8,7 +8,7 @@ from parsers import Parsers
 #my_secret = os.environ['Token']
 
 
-bot = Bot(token="5904928754:AAFMpo-LTpEx8ADICkBWQsZREip1F4SeygU")
+bot = Bot(token="Token")
 dp = Dispatcher(bot,storage=MemoryStorage())
 
 class FSMadmin(StatesGroup):
