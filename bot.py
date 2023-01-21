@@ -7,8 +7,10 @@ from parsers import Parsers
 
 #my_secret = os.environ['Token']
 
+pars = Parsers()
+pars.get_map()
 
-bot = Bot(token="Token")
+bot = Bot(token="5904928754:AAFMpo-LTpEx8ADICkBWQsZREip1F4SeygU")
 dp = Dispatcher(bot,storage=MemoryStorage())
 
 class FSMadmin(StatesGroup):
@@ -45,7 +47,6 @@ async def func(message):
         inline_btn_1 = types.InlineKeyboardButton('Хочу ещё', callback_data='next_image')
         inline_kb = types.InlineKeyboardMarkup()
         inline_kb.add(inline_btn_1)
-        pars = Parsers()
         pars.cotochel()
         photo= open('images/cotochel.png', 'rb')
         await bot.send_photo(photo=photo, chat_id=message.chat.id ,reply_markup=inline_kb)
@@ -55,7 +56,6 @@ async def func(message):
         inline_btn_1 = types.InlineKeyboardButton('Следующая новость', callback_data='next_news')
         inline_kb = types.InlineKeyboardMarkup()
         inline_kb.add(inline_btn_1)
-        pars = Parsers()
         await message.answer(text=pars.news(), reply_markup=inline_kb)
 
 
@@ -64,7 +64,6 @@ async def process_callback_button1(callback_query: types.CallbackQuery):
     inline_btn_1 = types.InlineKeyboardButton('Нужно больше кошек', callback_data='next_image')
     inline_kb = types.InlineKeyboardMarkup()
     inline_kb.add(inline_btn_1)
-    pars = Parsers()
     pars.cotochel()
     photo= open('images/cotochel.png', 'rb')
     await callback_query.bot.send_photo(photo=photo, chat_id=callback_query.message.chat.id ,reply_markup=inline_kb)
@@ -75,8 +74,7 @@ async def process_callback_button1(callback_query: types.CallbackQuery):
     inline_btn_1 = types.InlineKeyboardButton('Следующая новость', callback_data='next_news')
     inline_kb = types.InlineKeyboardMarkup()
     inline_kb.add(inline_btn_1)
-    pars = Parsers()
-    await callback_query.bot.answer_callback_query(text=pars.next_news(), chat_id=callback_query.message.chat.id ,reply_markup=inline_kb)
+    await callback_query.bot.send_message(text=pars.next_news(), chat_id=callback_query.message.chat.id ,reply_markup=inline_kb)
     await callback_query.answer()
 
 
