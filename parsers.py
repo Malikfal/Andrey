@@ -2,13 +2,11 @@ import requests
 from PIL import Image, ImageDraw, ImageFilter
 from bs4 import BeautifulSoup
 from random import randint
-import sqlite3
 
 class Parsers:
     def __init__(self):
         self.bd = []
         self.now_url = 0
-
 
     # Обрезка карты
     def pil_map(self):
@@ -41,8 +39,6 @@ class Parsers:
         out.write(people.content)
         out.close()
 
-        self.pil_cat()
-
         img = Image.open(f"images\chel.png")
         img2 = Image.open(f"images\cats\cat{randint(1,44)}.png")
         
@@ -64,7 +60,6 @@ class Parsers:
         soup = BeautifulSoup(req.content, "lxml")
         cats2 = soup.find_all(class_="highslide")
         cats = soup.find_all(class_="highslide")[1].get('href')
-        
         return len(cats2)
 
     def news(self):
@@ -76,7 +71,6 @@ class Parsers:
         for i in news[1:10]:
             if i not in self.bd:
                 self.bd.append(i.get('href'))
-        print(self.bd)
         self.now_url = 0
         return news[0].get("href")
 
