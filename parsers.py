@@ -9,7 +9,7 @@ class Parsers:
         self.bd = sqlite3.connect("BD.sqlite3")
         self.NEW_Bd = self.bd.cursor()
         self.NEW_Bd.execute("""CREATE TABLE IF NOT EXISTS news (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, urls TEXT)""")
-        self.now_url = 1
+        self.now_url = 0
 
 
     # Обрезка карты
@@ -74,25 +74,35 @@ class Parsers:
         req = requests.get(url)
         soup = BeautifulSoup(req.content, "lxml")
         news = soup.find_all(class_="item__link")
-        if news[0] == self.NEW_Bd.execute("SELECT urls FROM news LIMIT 1"):
-            self.now_url = 1
+        if news[0] == list(self.NEW_Bd.execute("SELECT urls FROM news"))[0]:
+            self.now_url = 0
             return news[0].get("href")
         else:
             for i in news:
-                if i not in self.NEW_Bd.execute("SELECT urls FROM news"):
+                if i not in list(self.NEW_Bd.execute("SELECT urls FROM news"))[0]:
                     self.NEW_Bd.execute("SELECT urls FROM news")
-                    self.NEW_Bd.execute(f"INSERT INTO news VALUES (0,'{i.get('href')}')")
+                    self.NEW_Bd.execute(f"INSERT OR IGNORE INTO news VALUES (1,'{i.get('href')}')")
                     self.bd.commit()
-                    self.now_url = news.index(i.get('href'))
+                    try:
+
+                        self.now_url = news.index(i.get('href'))
+                    except:
+                        pass
             return news[0]
         #print(news)
 
     def next_news(self):
         news = self.NEW_Bd.execute(f"SELECT id FROM news WHERE id={self.now_url}")
         return news
+
+    def sqlt(self):
+        print(list(self.NEW_Bd.execute("SELECT urls FROM news"))[0][0])
+        #for i in self.NEW_Bd.execute("SELECT urls FROM news"):
+            #print(i)
         
 
 Pars = Parsers()
+#Pars.news()
 Pars.get_map()
 
 #Pars.news()
