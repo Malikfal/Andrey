@@ -26,7 +26,7 @@ async def start(message: types.Message):
     btn4 = types.KeyboardButton("📰 Новости")
     btn3 = types.KeyboardButton("🐱 Опа")
     markup.add(btn1, btn2, btn4).row(btn3)
-    await message.answer(text="Привет, что хочешь", reply_markup = markup)
+    await message.answer(text="Привет, что хочешь?", reply_markup = markup)
 
 
 @dp.message_handler(content_types=['text'])
