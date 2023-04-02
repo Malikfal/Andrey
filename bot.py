@@ -10,7 +10,7 @@ from parsers import Parsers
 pars = Parsers()
 pars.get_map()
 
-bot = Bot(token="5904928754:AAFMpo-LTpEx8ADICkBWQsZREip1F4SeygU")
+bot = Bot(token="TOKEN")
 dp = Dispatcher(bot,storage=MemoryStorage())
 
 class FSMadmin(StatesGroup):
